@@ -2,7 +2,6 @@ import '../models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class AppComponents {
-  // Campo de texto genérico
   static Widget customTextField({
     required TextEditingController controller,
     required String labelText,
@@ -25,7 +24,6 @@ class AppComponents {
     );
   }
 
-  // Campo de senha
   static Widget passwordField({
     required TextEditingController controller,
     required String labelText,
@@ -52,7 +50,6 @@ class AppComponents {
     );
   }
 
-  // Campo de confirmação de senha
   static Widget confirmPasswordField({
     required TextEditingController controller,
     required String labelText,
@@ -79,7 +76,6 @@ class AppComponents {
     );
   }
 
-  // Card de usuário
   static Widget userCard(UserModel user) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
