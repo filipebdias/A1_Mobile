@@ -1,44 +1,104 @@
-import 'package:flutter/material.dart';
 import '../models/user_model.dart';
+import 'package:flutter/material.dart';
 
-class UserCard extends StatelessWidget {
-  final UserModel user;
-  final VoidCallback onEdit;
-  final VoidCallback onDelete;
-
-  const UserCard({
-    super.key,
-    required this.user,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            const Icon(Icons.person, color: Colors.deepPurple, size: 32),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(user.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                  Text(user.email),
-                ],
-              ),
-            ),
-            IconButton(icon: const Icon(Icons.edit, color: Colors.blue), onPressed: onEdit),
-            IconButton(icon: const Icon(Icons.delete, color: Colors.red), onPressed: onDelete),
-          ],
+class AppComponents {
+  // Campo de texto genérico
+  static Widget customTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required IconData prefixIcon,
+    bool obscureText = false,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: labelText,
+          prefixIcon: Icon(prefixIcon),
+          border: const OutlineInputBorder(),
         ),
       ),
     );
   }
+
+  // Campo de senha
+  static Widget passwordField({
+    required TextEditingController controller,
+    required String labelText,
+    bool obscureText = true,
+    required VoidCallback toggleObscureText,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          labelText: labelText,
+          prefixIcon: const Icon(Icons.lock),
+          suffixIcon: IconButton(
+            icon: Icon(
+              obscureText ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: toggleObscureText,
+          ),
+          border: const OutlineInputBorder(),
+        ),
+      ),
+    );
+  }
+
+  // Campo de confirmação de senha
+  static Widget confirmPasswordField({
+    required TextEditingController controller,
+    required String labelText,
+    bool obscureText = true,
+    required VoidCallback toggleObscureText,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          labelText: labelText,
+          prefixIcon: const Icon(Icons.lock),
+          suffixIcon: IconButton(
+            icon: Icon(
+              obscureText ? Icons.visibility : Icons.visibility_off,
+            ),
+            onPressed: toggleObscureText,
+          ),
+          border: const OutlineInputBorder(),
+        ),
+      ),
+    );
+  }
+
+  // Card de usuário
+  static Widget userCard(UserModel user) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: ListTile(
+        leading: const CircleAvatar(
+          backgroundColor: Colors.blue,
+          child: Icon(Icons.person, color: Colors.white),
+        ),
+        title: Text(user.name),
+        subtitle: Text(user.email),
+      ),
+    );
+  }
 }
+
+
+
+
+
+
+
+
