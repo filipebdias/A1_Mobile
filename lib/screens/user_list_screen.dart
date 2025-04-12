@@ -87,6 +87,15 @@ class _UserListScreenState extends State<UserListScreen> {
               itemCount: users.length,
               itemBuilder: (context, index) {
                 final user = users[index];
+                final userId = user['id']?.toString();
+
+                if (userId == null) {
+                  return const ListTile(
+                    title: Text('Usuário com ID inválido'),
+                    subtitle: Text('Erro ao exibir este usuário.'),
+                  );
+                }
+
                 return Card(
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 3,
@@ -111,11 +120,11 @@ class _UserListScreenState extends State<UserListScreen> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () => _navigateToEditUser(user['_id'], user),
+                          onPressed: () => _navigateToEditUser(userId, user),
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _deleteUser(user['_id']),
+                          onPressed: () => _deleteUser(userId),
                         ),
                       ],
                     ),

@@ -5,7 +5,11 @@ class EditUserScreen extends StatefulWidget {
   final String userId;
   final Map<String, dynamic> userData;
 
-  const EditUserScreen({super.key, required this.userId, required this.userData});
+  const EditUserScreen({
+    super.key,
+    required this.userId,
+    required this.userData,
+  });
 
   @override
   State<EditUserScreen> createState() => _EditUserScreenState();
@@ -19,8 +23,8 @@ class _EditUserScreenState extends State<EditUserScreen> {
   @override
   void initState() {
     super.initState();
-    nameController.text = widget.userData['name'] ?? '';
-    emailController.text = widget.userData['email'] ?? '';
+    nameController.text = widget.userData['name']?.toString() ?? '';
+    emailController.text = widget.userData['email']?.toString() ?? '';
   }
 
   void _updateUser() async {
@@ -37,7 +41,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
         nameController.text.trim(),
         emailController.text.trim(),
       );
-      Navigator.pop(context, true); // Retorna true para recarregar a lista
+      Navigator.pop(context, true);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro ao atualizar usuário: $e')),
@@ -67,7 +71,10 @@ class _EditUserScreenState extends State<EditUserScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _updateUser,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, foregroundColor: Colors.white),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                foregroundColor: Colors.white,
+              ),
               child: const Text('Salvar Alterações'),
             ),
           ],

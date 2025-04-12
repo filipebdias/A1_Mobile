@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = 'https://crudcrud.com/api/44081dae2c814d60a16533038549ba0f/users';
-
+  final String baseUrl = 'https://67f991bf094de2fe6ea1e8ef.mockapi.io/api/users';
 
   Future<List<Map<String, dynamic>>> getUsers() async {
     final response = await http.get(Uri.parse(baseUrl));
@@ -12,10 +11,9 @@ class ApiService {
       final List data = json.decode(response.body);
       return data.cast<Map<String, dynamic>>();
     } else {
-      throw Exception('Erro ao carregar usuários');
+      throw Exception('Erro ao carregar usuários: ${response.statusCode}');
     }
   }
-
 
   Future<void> createUser(String name, String email) async {
     final response = await http.post(
@@ -28,13 +26,16 @@ class ApiService {
     );
 
     if (response.statusCode != 201) {
-      throw Exception('Erro ao criar usuário');
+      throw Exception('Erro ao criar usuário: ${response.statusCode}');
     }
   }
 
+  Future<void> updateUser(dynamic id, String name, String email) async {
+    if (id == null) {
+      throw ArgumentError('ID do usuário não pode ser nulo.');
+    }
 
-  Future<void> updateUser(String id, String name, String email) async {
-    final url = '$baseUrl/$id';
+    final url = '$baseUrl/${id.toString()}';
 
     final response = await http.put(
       Uri.parse(url),
@@ -45,17 +46,17 @@ class ApiService {
       }),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Erro ao atualizar usuário');
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception('Erro ao atualizar usuário. Status: ${response.statusCode}');
     }
   }
 
-
-  Future<void> deleteUser(String id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id'));
+  Future<void> deleteUser(dynamic id) async {
+    final String userId = id.toString();
+    final response = await http.delete(Uri.parse('$baseUrl/$userId'));
 
     if (response.statusCode != 200 && response.statusCode != 204) {
-      throw Exception('Erro ao excluir usuário');
+      throw Exception('Erro ao excluir usuário: ${response.statusCode}');
     }
   }
 }
